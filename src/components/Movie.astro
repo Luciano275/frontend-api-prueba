@@ -1,0 +1,16 @@
+---
+import type { Movie } from '../types';
+
+const { id, title, year, director, duration, poster, genre, rate } = Astro.props as Movie
+
+---
+
+<div class="rounded-2xl overflow-hidden grow" data-id={id}>
+  <div class="h-full max-h-80 overflow-hidden">
+    <a href=`/movie/${id}`>
+      <img src={poster} alt={title} class="w-full max-w-full h-auto transition-transform hover:scale-110" />
+    </a>
+  </div>
+  <h2 class="text-2xl font-bold break-words py-2">{title}</h2>
+  <p class="py-2">{year}</p>
+</div>

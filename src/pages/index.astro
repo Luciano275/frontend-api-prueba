@@ -1,0 +1,26 @@
+---
+import Movie from '../components/Movie.astro';
+import Layout from '../layouts/Layout.astro';
+import type { Movie as MovieInterface } from '../types';
+import { BASE_ENDPOINT } from '../util';
+
+const request = await fetch(BASE_ENDPOINT)
+const data = request.status !== 200 ? undefined : (await request.json()) as MovieInterface[]
+
+---
+<Layout title="Peliculas">
+	<main class="p-8 min-h-screen">
+		{ !data && <h2 class="text-center text-2xl">Error de API</h2> }
+		{ data && (
+			<div class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-8">
+				{
+					data.map((movie) => (
+						<Movie
+							{...movie}
+						/>
+					))
+				}
+			</div>
+		) }
+	</main>
+</Layout>

@@ -1,0 +1,1 @@
+export const BASE_ENDPOINT = 'https://api-prueba-glkp-dev.fl0.io/movies';

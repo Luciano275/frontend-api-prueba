@@ -1,0 +1,35 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import { BASE_ENDPOINT } from '../../util';
+import type { OnlyResponseMovie } from '../../types'
+
+const { id } = Astro.params
+const request = await fetch(`${BASE_ENDPOINT}/${id}`)
+const movie = (await request.json()) as OnlyResponseMovie
+
+---
+
+<Layout title={movie.movie ? movie.movie.title : movie.message}>
+  <main class="min-h-screen p-8">
+    { !movie.movie && <h2>{movie.message}</h2> }
+    { movie.movie && (
+      <>
+        <p class="text-gray-400">{movie.movie.genre.join(' - ')}</p>
+        <h2 class="py-2 border-b-2 flex justify-between items-center">
+          <span class="text-3xl">{movie.movie.title}</span>
+          <span class="text-2xl">⭐ {movie.movie.rate}</span>
+        </h2>
+        <div class="grid sm:grid-cols-2 gap-4 place-items-center">
+          <div class="overflow-hidden h-full max-h-full max-w-xl">
+            <img src={movie.movie.poster} alt={movie.movie.title} class="max-w-full w-full h-auto transition-transform hover:scale-110 object-cover" />
+          </div>
+          <div class="py-2">
+            <h3 class="font-bold text-2xl text-center py-4">{movie.movie.director}</h3>
+            <h4 class="text-gray-300 text-center">Lanzada en {movie.movie.year} - {movie.movie.duration}min</h4>
+          </div>
+        </div>
+      </>
+    ) }
+  </main>
+</Layout>
+
